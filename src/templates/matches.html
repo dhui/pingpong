@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+PingPong - Matches
+{% endblock %}
+
+{% block content %}
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Winner(s)</th>
+    <th>Winner(s) Score</th>
+    <th>Winner(s) Errors</th>
+    <th>Loser(s)</th>
+    <th>Loser(s) Score</th>
+    <th>Loser(s) Errors</th>
+    <th>Deuce</th>
+  </tr>
+  {% for match in matches %}
+    <tr>
+      <td>{{ match.date }}</td>
+      <td>
+        {% for player in match.winner.players.all %}
+          <a href="{% url src.pingpong.views.player_matches player.id %}" target="_blank">{{ player.name }}</a>
+        {% endfor %}
+      </td>
+      <td>{{ match.winner.perf.score }}</td>
+      <td>{{ match.winner.perf.errors }}</td>
+      <td>
+        {% for player in match.loser.players.all %}
+          <a href="{% url src.pingpong.views.player_matches player.id %}" target="_blank">{{ player.name }}</a>
+        {% endfor %}
+      </td>
+      <td>{{ match.loser.perf.score }}</td>
+      <td>{{ match.loser.perf.errors }}</td>
+      <td>{{ match.deuce }}</td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}

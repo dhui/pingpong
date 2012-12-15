@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+PingPong - Add New Player
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript" src="/static/js/players.js"></script>
+{% endblock %}
+
+{% block content %}
+  <table id="players">
+    <tr>
+      <th>Name</th>
+      <th>Remove</th>
+    </tr>
+    {% for player in players %}
+      <tr>
+        <td>{{ player.name }}</td>
+        <td><input type="button" class="removePlayer" playerId="{{ player.id }}" value="Remove"/></td>
+      </tr>
+    {% endfor %}
+  </table>
+  <div>
+    <form id="newPlayerForm">
+      New player: <input type="text" id="newPlayerName"/><input type="submit" value="Add"/>
+    </form>
+  </div>
+{% endblock %}
