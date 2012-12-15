@@ -102,5 +102,32 @@ class Players(View):
 
 def player_matches(request, player_id):
     player = get_object_or_404(Player, id=player_id)
-    matches = Match.objects.filter(Q(winner__players=player)|Q(loser__players=player))
-    return render_to_response("matches.html", {"matches": matches})
+    matches = list(Match.objects.filter(Q(winner__players=player)|Q(loser__players=player)).order_by("-date"))
+    matches_won = [m for m in matches if player in m.winner.all_players]
+    matches_lost = [m for m in matches if player in m.loser.all_players]
+    num_wins = len(matches_won)
+    num_losses = len(matches_lost)
+    streak = ""
+    if matches:
+        first_match = matches[0]
+        verb = "losing"
+        if player in first_match.winner.all_players:
+            verb = "winning"
+        streak_length = 1
+        for match in matches[1:]:
+            if verb == "winning":
+                if player in match.winner.all_players:
+                    streak_length += 1
+                else:
+                    break
+            else:
+                if player in match.loser.all_players:
+                    streak_length += 1
+                else:
+                    break
+
+        streak = "You are on a %s game %s streak" % (streak_length, verb)
+    total_score = sum((m.winner.perf.score for m in matches_won)) + sum((m.loser.perf.score for m in matches_lost))
+    total_errors = sum((m.winner.perf.errors for m in matches_won)) + sum((m.loser.perf.errors for m in matches_lost))
+    error_rate = float(total_errors)/total_score if total_score else 0
+    return render_to_response("player_matches.html", {"player": player, "num_wins": num_wins, "num_losses": num_losses, "streak": streak, "total_score": total_score, "total_errors": total_errors, "error_rate": error_rate, "matches": matches})

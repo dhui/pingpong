@@ -1,5 +1,7 @@
 from django.db import models
 
+from src.utils import cached_property
+
 
 class Player(models.Model):
     name = models.CharField(max_length=64, unique=True)
@@ -16,6 +18,10 @@ class MatchTeamPerf(models.Model):
 class MatchTeam(models.Model):
     perf = models.ForeignKey(MatchTeamPerf)
     players = models.ManyToManyField(Player, through="TeamMember", related_name="teams")
+
+    @cached_property
+    def all_players(self):
+        return self.players.all()
 
 
 class TeamMember(models.Model):

@@ -1,0 +1,14 @@
+{% extends "matches.html" %}
+
+{% block content %}
+  <div>Player: {{ player.name }}</div>
+  <div>Wins: {{ num_wins }}</div>
+  <div>Losses: {{ num_losses }}</div>
+  <div>Total score: {{ total_score }}</div>
+  <div>Total errors: {{ total_errors }}</div>
+  <div>Error rate: {{ error_rate }}</div>
+  {% if streak %}
+    <div>{{ streak }}</div>
+  {% endif %}
+  {{ block.super }}
+{% endblock %}
