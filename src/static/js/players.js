@@ -17,7 +17,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $(".removePlayer").live("click", function() {
+    $("#players").on("click", ".removePlayer", function() {
         var input = $(this);
         var id = $(this).attr("playerId");
         $.ajax({
