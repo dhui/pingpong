@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic import View
 
 from src.pingpong.constants import POSSIBLE_POINTS_PER_GAME
-from src.pingpong.models import Player, MatchTeamPerf, MatchTeam, TeamMember, Match
+from src.pingpong.models import Player, Team, TeamPerf, Match
 from src.utils import render_to_json
 
 def index(request):
@@ -42,7 +42,7 @@ class Matches(View):
             players = Player.objects.filter(id__in=team["players"])
             if not players:
                 raise Http404("No players found: %s" % team["players"])
-            perf = MatchTeamPerf(score=int(team["score"]), errors=int(team["errors"]))
+            perf = TeamPerf(score=int(team["score"]), errors=int(team["errors"]))
             # Update the score for the deuce case
             if data["deuce"]:
                 if team["won_deuce"]:
@@ -60,18 +60,17 @@ class Matches(View):
         if sum([1 if t.perf.score == points_per_game else 0 for t in team_proxies]) != 1:
             raise Http404("One team must win")
 
+
         match = Match(points_per_game=points_per_game)
         for team_proxy in team_proxies:
-            match_team_perf = team_proxy.perf
-            match_team_perf.save()
-            match_team = MatchTeam(perf=match_team_perf)
-            match_team.save()
-            team_members = (TeamMember(match_team=match_team, player=p) for p in team_proxy.players)
-            TeamMember.objects.bulk_create(team_members)
-            if match_team_perf.score == points_per_game:
-                match.winner = match_team
+            team = Team.get_or_create(team_proxy.players)
+            team_perf = team_proxy.perf
+            team_perf.team = team
+            team_perf.save()
+            if team_perf.score == points_per_game:
+                match.winner_perf = team_perf
             else:
-                match.loser = match_team
+                match.loser_perf = team_perf
         match.save()
 
         return render_to_json({})
@@ -102,7 +101,7 @@ class Players(View):
 
 def player_matches(request, player_id):
     player = get_object_or_404(Player, id=player_id)
-    matches = list(Match.objects.filter(Q(winner__players=player)|Q(loser__players=player)).order_by("-date"))
+    matches = list(Match.objects.filter(Q(winner_perf__team__players=player)|Q(loser_perf__team__players=player)).order_by("-date"))
     matches_won = [m for m in matches if player in m.winner.all_players]
     matches_lost = [m for m in matches if player in m.loser.all_players]
     num_wins = len(matches_won)
@@ -127,7 +126,7 @@ def player_matches(request, player_id):
                     break
 
         streak = "You are on a %s game %s streak" % (streak_length, verb)
-    total_score = sum((m.winner.perf.score for m in matches_won)) + sum((m.loser.perf.score for m in matches_lost))
-    total_errors = sum((m.winner.perf.errors for m in matches_won)) + sum((m.loser.perf.errors for m in matches_lost))
+    total_score = sum((m.winner_perf.score for m in matches_won)) + sum((m.loser_perf.score for m in matches_lost))
+    total_errors = sum((m.winner_perf.errors for m in matches_won)) + sum((m.loser_perf.errors for m in matches_lost))
     error_rate = float(total_errors)/total_score if total_score else 0
     return render_to_response("player_matches.html", {"player": player, "num_wins": num_wins, "num_losses": num_losses, "streak": streak, "total_score": total_score, "total_errors": total_errors, "error_rate": error_rate, "matches": matches})

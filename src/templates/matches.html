@@ -20,19 +20,19 @@ PingPong - Matches
     <tr>
       <td>{{ match.date }}</td>
       <td>
-        {% for player in match.winner.players.all %}
+        {% for player in match.winner.all_players %}
           <a href="{% url src.pingpong.views.player_matches player.id %}" target="_blank">{{ player.name }}</a>
         {% endfor %}
       </td>
-      <td>{{ match.winner.perf.score }}</td>
-      <td>{{ match.winner.perf.errors }}</td>
+      <td>{{ match.winner_perf.score }}</td>
+      <td>{{ match.winner_perf.errors }}</td>
       <td>
-        {% for player in match.loser.players.all %}
+        {% for player in match.loser.all_players %}
           <a href="{% url src.pingpong.views.player_matches player.id %}" target="_blank">{{ player.name }}</a>
         {% endfor %}
       </td>
-      <td>{{ match.loser.perf.score }}</td>
-      <td>{{ match.loser.perf.errors }}</td>
+      <td>{{ match.loser_perf.score }}</td>
+      <td>{{ match.loser_perf.errors }}</td>
       <td>{{ match.deuce }}</td>
     </tr>
   {% endfor %}
