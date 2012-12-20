@@ -45,18 +45,13 @@ class Matches(View):
             perf = TeamPerf(score=int(team["score"]), errors=int(team["errors"]))
             # Update the score for the deuce case
             if data["deuce"]:
-                if team["won_deuce"]:
+                if team["wonDeuce"]:
                     perf.score = points_per_game
                 else:
                     perf.score = points_per_game - 1
             team_proxies.append(TeamProxy(players, perf))
 
-        # Score validation
-        if data["deuce"]:
-            # Only one team can win deuce
-            if sum([1 if t.won_deuce else 0 for t in self.teams]) > 1:
-                raise Http404("Only one team may win in deuce")
-        # One team must have won
+        # Score validation - one team must have won
         if sum([1 if t.perf.score == points_per_game else 0 for t in team_proxies]) != 1:
             raise Http404("One team must win")
 
