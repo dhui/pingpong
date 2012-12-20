@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic import View
 
 from src.pingpong.constants import POSSIBLE_POINTS_PER_GAME
+from src.pingpong.leader_board import LeaderBoard
 from src.pingpong.models import Player, Team, TeamPerf, Match
 from src.utils import render_to_json
 
@@ -125,3 +126,9 @@ def player_matches(request, player_id):
     total_errors = sum((m.winner_perf.errors for m in matches_won)) + sum((m.loser_perf.errors for m in matches_lost))
     error_rate = float(total_errors)/total_score if total_score else 0
     return render_to_response("player_matches.html", {"player": player, "num_wins": num_wins, "num_losses": num_losses, "streak": streak, "total_score": total_score, "total_errors": total_errors, "error_rate": error_rate, "matches": matches})
+
+
+def leader_board(request):
+    matches = Match.objects.all()
+    leader_board = LeaderBoard(matches)
+    return render_to_response("leader_board.html", {"leader_board": leader_board})

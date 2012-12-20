@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+  PingPong - Leaderboard
+{% endblock %}
+
+{% block content %}
+  By total wins:
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Wins</th>
+      <th>Losses</th>
+      <th>Win Ratio</th>
+    </tr>
+    {% for leader in leader_board.leaders_by_wins %}
+      <tr>
+        <td>{{ leader.player.name }}</td>
+        <td>{{ leader.player_stats.wins }}</td>
+        <td>{{ leader.player_stats.losses }}</td>
+        <td>{{ leader.player_stats.win_ratio }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+  By total win ratio:
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Win Ratio</th>
+      <th>Wins</th>
+      <th>Losses</th>
+    </tr>
+    {% for leader in leader_board.leaders_by_win_ratio %}
+      <tr>
+        <td>{{ leader.player.name }}</td>
+        <td>{{ leader.player_stats.win_ratio }}</td>
+        <td>{{ leader.player_stats.wins }}</td>
+        <td>{{ leader.player_stats.losses }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

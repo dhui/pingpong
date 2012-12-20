@@ -9,6 +9,7 @@ from src.pingpong import views as pingpong_views
 urlpatterns = patterns('',
                        url(r"^$", pingpong_views.index),
                        url(r"^matches/$", pingpong_views.Matches.as_view(), name="matches"),
+                       url(r"^leader_board/$", pingpong_views.leader_board),
                        url(r"^player_matches/(?P<player_id>\d+)/$", pingpong_views.player_matches),
                        url(r"^players/$", pingpong_views.Players.as_view(), name="players"),
     # Examples:
