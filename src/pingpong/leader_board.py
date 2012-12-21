@@ -58,3 +58,11 @@ class LeaderBoard(object):
     @property
     def leaders_by_win_ratio(self):
         return sorted(self.players_to_leaders, key=lambda l: l.player_stats.win_ratio, reverse=True)
+
+    @property
+    def leaders_by_errors(self):
+        return sorted(self.players_to_leaders, key=lambda l: l.player_stats.total_errors)
+
+    @property
+    def leaders_by_error_rate(self):
+        return sorted(self.players_to_leaders, key=lambda l: l.player_stats.error_rate)

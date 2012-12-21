@@ -13,6 +13,8 @@
       <th>Wins</th>
       <th>Losses</th>
       <th>Win Ratio</th>
+      <th>Error Rate</th>
+      <th>Errors</th>
     </tr>
     {% for leader in leader_board.leaders_by_wins %}
       <tr>
@@ -21,6 +23,8 @@
         <td>{{ leader.player_stats.wins }}</td>
         <td>{{ leader.player_stats.losses }}</td>
         <td>{{ leader.player_stats.win_ratio }}</td>
+        <td>{{ leader.player_stats.error_rate }}</td>
+        <td>{{ leader.player_stats.total_errors }}</td>
       </tr>
     {% endfor %}
   </table>
@@ -32,6 +36,8 @@
       <th>Win Ratio</th>
       <th>Wins</th>
       <th>Losses</th>
+      <th>Error Rate</th>
+      <th>Errors</th>
     </tr>
     {% for leader in leader_board.leaders_by_win_ratio %}
       <tr>
@@ -40,6 +46,54 @@
         <td>{{ leader.player_stats.win_ratio }}</td>
         <td>{{ leader.player_stats.wins }}</td>
         <td>{{ leader.player_stats.losses }}</td>
+        <td>{{ leader.player_stats.error_rate }}</td>
+        <td>{{ leader.player_stats.total_errors }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+  By error rate:
+  <table>
+    <tr>
+      <th>Rank</th>
+      <th>Name</th>
+      <th>Error Rate</th>
+      <th>Errors</th>
+      <th>Wins</th>
+      <th>Losses</th>
+      <th>Win Ratio</th>
+    </tr>
+    {% for leader in leader_board.leaders_by_error_rate %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ leader.player.name }}</td>
+        <td>{{ leader.player_stats.error_rate }}</td>
+        <td>{{ leader.player_stats.total_errors }}</td>
+        <td>{{ leader.player_stats.wins }}</td>
+        <td>{{ leader.player_stats.losses }}</td>
+        <td>{{ leader.player_stats.win_ratio }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+  By errors:
+  <table>
+    <tr>
+      <th>Rank</th>
+      <th>Name</th>
+      <th>Errors</th>
+      <th>Error Rate</th>
+      <th>Wins</th>
+      <th>Losses</th>
+      <th>Win Ratio</th>
+    </tr>
+    {% for leader in leader_board.leaders_by_errors %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ leader.player.name }}</td>
+        <td>{{ leader.player_stats.total_errors }}</td>
+        <td>{{ leader.player_stats.error_rate }}</td>
+        <td>{{ leader.player_stats.wins }}</td>
+        <td>{{ leader.player_stats.losses }}</td>
+        <td>{{ leader.player_stats.win_ratio }}</td>
       </tr>
     {% endfor %}
   </table>
