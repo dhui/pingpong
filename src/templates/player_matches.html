@@ -2,11 +2,11 @@
 
 {% block content %}
   <div>Player: {{ player.name }}</div>
-  <div>Wins: {{ num_wins }}</div>
-  <div>Losses: {{ num_losses }}</div>
-  <div>Total score: {{ total_score }}</div>
-  <div>Total errors: {{ total_errors }}</div>
-  <div>Error rate: {{ error_rate }}</div>
+  <div>Wins: {{ player_stats.wins }}</div>
+  <div>Losses: {{ player_stats.losses }}</div>
+  <div>Total score: {{ player_stats.total_score }}</div>
+  <div>Total errors: {{ player_stats.total_errors }}</div>
+  <div>Error rate: {{ player_stats.error_rate }}</div>
   {% if streak %}
     <div>{{ streak }}</div>
   {% endif %}
