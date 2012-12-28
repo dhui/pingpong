@@ -52,7 +52,7 @@ class Matches(View):
             team_proxies.append(TeamProxy(players, perf))
 
         # Score validation - one team must have won
-        if sum([1 if t.perf.score == points_per_game else 0 for t in team_proxies]) != 1:
+        if sum((1 if t.perf.score == points_per_game else 0 for t in team_proxies)) != 1:
             raise Http404("One team must win")
 
 
