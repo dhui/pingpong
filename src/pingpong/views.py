@@ -54,7 +54,13 @@ class Matches(View):
         # Score validation - one team must have won
         if sum((1 if t.perf.score == points_per_game else 0 for t in team_proxies)) != 1:
             raise Http404("One team must win")
-
+        # Can't have more errors than another team's points
+        for team in team_proxies:
+            for other_team in team_proxies:
+                if other_team == team:
+                    continue
+                if other_team.perf.score < team.perf.errors:
+                    raise Http404("Errors must be less than opposing team's score")
 
         match = Match(points_per_game=points_per_game)
         for team_proxy in team_proxies:
