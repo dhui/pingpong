@@ -9,21 +9,28 @@ PingPong - Add New Player
 {% endblock %}
 
 {% block content %}
-  <table id="players">
-    <tr>
-      <th>Name</th>
-      <th>Remove</th>
-    </tr>
-    {% for player in players %}
-      <tr>
-        <td>{{ player.name }}</td>
-        <td><input type="button" class="removePlayer" playerId="{{ player.id }}" value="Remove"/></td>
-      </tr>
-    {% endfor %}
-  </table>
-  <div>
-    <form id="newPlayerForm">
-      New player: <input type="text" id="newPlayerName"/><input type="submit" value="Add"/>
-    </form>
+  <div class="row">
+    <div class="span6">
+      <table id="players" class="table table-striped">
+        <tr>
+          <th>Name</th>
+          <th>Remove</th>
+        </tr>
+        {% for player in players %}
+          <tr>
+            <td>{{ player.name }}</td>
+            <td><input type="button" class="btn removePlayer" playerId="{{ player.id }}" value="Remove"/></td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span12">
+      <form id="newPlayerForm" class="form-inline">
+        <label>New player: </label><input type="text" id="newPlayerName"/>
+        <input type="submit" class="btn btn-primary" value="Add"/>
+      </form>
+    </div>
   </div>
 {% endblock %}

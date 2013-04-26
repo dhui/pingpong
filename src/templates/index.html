@@ -5,49 +5,51 @@
 {% endblock %}
 
 {% block scripts %}
-<script type="text/javascript" src="/static/js/matches.js"></script>
+  <script type="text/javascript" src="/static/js/matches.js"></script>
 {% endblock %}
 
 {% block content %}
-  <div>    
-    Points per game: 
+  <form>
+    Points per game:
     {% for points_per_game in POSSIBLE_POINTS_PER_GAME %}
-      <input type="radio" name="pointsPerGame" value="{{ points_per_game }}" id="{{ points_per_game }}PointsPerGame" {% if forloop.first %}checked="checked"{% endif %} /><label for="{{ points_per_game }}PointsPerGame">{{ points_per_game }}</label>
+      <label class="radio inline">
+        <input type="radio" name="pointsPerGame" value="{{ points_per_game }}" {% if forloop.first %}checked="checked"{% endif %} />{{ points_per_game }}
+      </label>
     {% endfor %}
-  </div>
-  <div>
-    <input type="checkbox" id="doubles" /><label for="doubles">Doubles</label>
-  </div>
-  <div>
-    <input type="checkbox" id="deuce" /><label for="deuce">Deuce</label>
-  </div>
-  <div id="team1">
-    Team 1:
-    {% include "player_select.html" %}
-    <span class="player2 hide">
+    <label class="checkbox">
+      <input type="checkbox" id="doubles" />Doubles
+    </label>
+    <label class="checkbox">
+      <input type="checkbox" id="deuce" />Deuce
+    </label>
+    <div id="team1">
+      Team 1:
       {% include "player_select.html" %}
-    </span>
-    <span class="score">
-      Score: <input type="text" id="team1Score" size="2" maxlength="2" value="0"/>
-    </span>
-    Errors: <input type="text" id="team1Errors" class="errors" size="2" maxlength="2" value="0"/>
-    <span class="deuceWinner hide">
-      <input type="radio" name="deuceWinner" value="team1" id="team1WonDeuce" checked="checked"/><label for="team1WonDeuce">Won deuce</label>
-    </span>
-  </div>
-  <div id="team2">
-    Team 2:
-    {% include "player_select.html" %}
-    <span class="player2 hide">
+      <span class="player2 hide">
+        {% include "player_select.html" %}
+      </span>
+      <span class="score">
+        Score: <input type="text" id="team1Score" size="2" maxlength="2" value="0"/>
+      </span>
+      Errors: <input type="text" id="team1Errors" class="errors" size="2" maxlength="2" value="0"/>
+      <span class="deuceWinner hide">
+        <input type="radio" name="deuceWinner" value="team1" id="team1WonDeuce" checked="checked"/><label for="team1WonDeuce">Won deuce</label>
+      </span>
+    </div>
+    <div id="team2">
+      Team 2:
       {% include "player_select.html" %}
-    </span>
-    <span class="score">
-      Score: <input type="text" id="team2Score" size="2" maxlength="2" value="0"/>
-    </span>
-    Errors: <input type="text" id="team2Errors" class="errors" size="2" maxlength="2" value="0"/>
-    <span class="deuceWinner hide">
-      <input type="radio" name="deuceWinner" value="team2" id="team2WonDeuce" /><label for="team2WonDeuce">Won deuce</label>
-    </span>
-  </div>
-  <input type="button" id="newEntry" value="submit" />
+      <span class="player2 hide">
+        {% include "player_select.html" %}
+      </span>
+      <span class="score">
+        Score: <input type="text" id="team2Score" size="2" maxlength="2" value="0"/>
+      </span>
+      Errors: <input type="text" id="team2Errors" class="errors" size="2" maxlength="2" value="0"/>
+      <span class="deuceWinner hide">
+        <input type="radio" name="deuceWinner" value="team2" id="team2WonDeuce" /><label for="team2WonDeuce">Won deuce</label>
+      </span>
+    </div>
+    <input type="button" id="newEntry" class="btn btn-primary" value="submit" />
+  </form>
 {% endblock %}

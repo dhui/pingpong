@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="/static/css/reset.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" media="screen"/>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-responsive.min.css" media="screen"/>
     <link rel="stylesheet" href="/static/css/style.css" />
     <title>{% block title %}PingPong{% endblock %}</title>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/static/js/json2.js"></script>
     {% block scripts %}{% endblock %}
   </head>
 
   <body>
-    <div id="menu">
-      <a href="{% url pingpong.views.index %}">Add new entry</a>
-      <a href="{% url matches %}">View matches</a>
-      <a href="{% url pingpong.views.leader_board %}">View leaderboard</a>
-      <a href="{% url players %}">Add new player</a>
-    </div>
-    <div id="content">
-      {% block content %}{% endblock %}
+    <div class="container">
+      <div id="menu" class="row">
+        <div class="span12">
+          <a href="{% url pingpong.views.index %}">Add new entry</a>
+          <a href="{% url matches %}">View matches</a>
+          <a href="{% url pingpong.views.leader_board %}">View leaderboard</a>
+          <a href="{% url players %}">Add new player</a>
+        </div>
+      </div>
+      <div id="content" class="row">
+        <div class="span12">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
     </div>
   </body>
 
